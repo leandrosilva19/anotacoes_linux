@@ -1,0 +1,81 @@
+Data 25-08-2023 | 22:35 | nublado
+
+
+Para que haja a comunicação efetiva entre os dispositivos com a CPU, é necessário que haja a devida *alocação de recursos* para cada um deles. É que entram em cena os conceitos de *IRQ, Endereço de I<F2>O e DMA.
+
+As *requisições de interrupção (IRQ)* são sinais enviados pelos dispositivos ao digitar uma tecla, uma requisição IRQ é enviada para CPU, soliciatando o processamento da instrução.
+
+O arquivo que contem as informações do IRQs fica no <F2/proc/interrupts.
+Para visualizar digite 
+
+cat /proc/interrupts
+
+CPU0
+  0:        157   IO-APIC-2-edge      timer
+  1:          9   IO-APIC-1-edge      i8042
+  8:          0   IO-APIC-8-edge      rtc0
+  9:          0   IO-APIC-9-fasteoi   acpi
+
+Perceba que o conteúdo está distribuido em quatro colunas. A primeira delas representa o número (ou nome) da interrupção (por exemplo, a IRQ 0 corresponde ao relogio do sitema).
+Em seguida, vemos a quantidade de vezes que o endereço IRQ foi utilizado pela CPU. AS duas últimas colunas mostram o tipo e o nome da IRQ, respectivamente.
+
+E importante resaltar que *as IRQs podem ser compartilhadas entre os diversos tipos de dispositivos.*
+
+As *portas de entrada e saída* (também conhecidas como I/O), são endereços de memória reservados na CPU, utilizandos para entrada e saída de dados por parte dos dispositivos.
+
+*Um dispositovo pode usar mais de uma porta de Entrada /Saída ou uma faixa de endereços.* Por exemplo, uma placa de som padrão usa as portas 0x220, 0x330 e 0x388,respectivamente audio digital midi e opl3.
+Um detalhe é que os endereços das portas de entrada/saída *não* podem ser compartilhados, ou seja *não* podemos ter dois dispositivos utilizando o mesmo endereço de I/O.
+
+O linux armazena informações a respeiro das portas de entrada e saída no arquivo */proc/ioports.*
+
+cat /proc/ioports
+
+[root@srv-docker anotacoes_linux]# cat /proc/ioports
+  0000-0cf7 : PCI Bus 0000:00
+  0000-001f : dma1
+  0020-0021 : pic1
+  0040-0043 : timer0
+  0050-0053 : timer1
+  0060-0060 : keyboard
+  0064-0064 : keyboard
+
+A primeira coluna mostra endereços de porta de entrada e sáida em hexadecimal. Já a segunda coluna mostra os nomes dos dispositivos que estão associados a cada endereço. Perceba que o teclado (keyboard) utiliza mais de uma porta.
+
+Os canais *DMA* (Direct Memory Acces) permitem aos dispositivos ignorar a CPU ao precisar escrever informações em outros dispositivos (ou ler informações a partir deles). A ideia é reduzir a carga de trabalho sobre a CPU, resultando em melhor desempenho do sistema.
+
+*Grande parte dos computadores possuem dois controladores de DMA.* Enquanto o primeiro controla os canais 0,1,2, e 3 (canais baixos - movimetam 1 byte por transferência), o segundo controla os canais 4,5,6 e 7.
+
+Os canais 5 e 7 são conhecidos como canis altos, por permirem a movimentação de 2 bytes por tranferência (somente acessados por dispositivos de 16 bits). O canal 4 é utilizado como ligação (cascateamento) entre os dois controladores.
+
+*Via de regra, um canal DMA não pode ser compartilhado entre dois dispositivos.* Mas existem exceções, desde que os dois dispositivos não usem um mesmo canal no mesmo intervalo de tempo.
+
+cat /prc/dma
+
+[root@srv-docker anotacoes_linux]# cat /proc/dma
+ 4: cascade
+
+O arquivo /proc/dma permite que sejam visualizados os canais DMA em uso no sistema:
+
+
+O diretório q /proc contém informações sobre os processos em atividade no sistema podendo ser lido por qualquer usuário.
+
+###Sistema básico de entrada e saída (BIOS)
+
+post e a verificação que a bios faz
+realiza todos processo de verificação em todo pc processo chamado de post.
+
+Placas antigas tem limitação de 2T no sitema de arquivo devido ao MBR
+Em placas novas encontramos o EUFI ele utiliza o sitema de particionamento GPT
+
+
+lsmod
+
+Remover um modulo
+
+modprobe -r <nome do modulo>
+
+Habilitar 
+
+modpre <nome do modulo>
+
+
