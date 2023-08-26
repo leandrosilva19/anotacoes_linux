@@ -78,4 +78,4 @@ Habilitar
 
 modpre <nome do modulo>
 
-
+lspci
