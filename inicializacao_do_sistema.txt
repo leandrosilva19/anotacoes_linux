@@ -1,0 +1,21 @@
+#30/08/2023
+
+Quando sistema é ligado ou reiniciado, o Linux passa pela chamada *sequência de inicialização (boot)*
+
+##Processo de Boot
+1 - Power ON
+
+2 - Bios (Bios faz a verificação)
+ Assim que o computador é ligado, o Basic Intput/Output System (BIOS) inicializa o hardware, incluindo a tela e o teclado, e testa a memória principal. esse processo é chamado de POST (Power On Self Test).
+
+3- Master Boot Record (MBR) Boot loader
+Depois que o POST é concluído, o controle do sistema passa do BIOS para o carregador de inicialização. O carregador de inicialização (boot loader) é normalmente armazenado em um dos discos rígidos do sistema. Seja no setor de inicialização (BIOS/MBR) ou na partição EFI em sistemas mais recentes  (Extensible Firmware Interface ou EFI/UFI). O carregador de 
+3- Boot Loader (e.g GRUB)
+4- Kernel (Linux OS)
+5- Initial Ram disk - initramfs image
+6- /sbin/initi (parent process)
+7- Command Sheç using getty 
+
+Fonte: https://sempreupdate.com.br/como-funciona-o-boot-do-linux-tudo-o-que-voce-precisa-saber/
+
+Estou copiando o texto apenas para fixar na memória, irei apagar. Documento em construção.
